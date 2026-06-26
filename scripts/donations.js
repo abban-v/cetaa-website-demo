@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
     
-    // Minimum 3 seconds delay
-    const minimumDelay = new Promise(resolve => setTimeout(resolve, 3000));
+    // Minimum 2 seconds delay
+    const minimumDelay = new Promise(resolve => setTimeout(resolve, 2000));
     
     // Window fully loaded
     const windowLoaded = new Promise(resolve => {

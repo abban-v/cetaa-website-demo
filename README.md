@@ -1,2 +1,2 @@
 # cetaa-website-demo
-A repo for the website of CETAA 
+A demo web page for cetaa created for cetaa internship selection.

@@ -6,9 +6,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 });
 
-const navbar=document.querySelector("div.navbar");
-const divsInNavbar=navbar.querySelectorAll("div");
-
 // The extracted image URLs
 const images = [
     "https://vaave.s3.amazonaws.com/assets/site_content/151617177/banners/128934b116d07990c35c830a57679b36.jpg",
@@ -62,6 +59,36 @@ function showNextSlide() {
 setInterval(showNextSlide, 5000);
 
 
-const hiddenElements = document.querySelectorAll('.scroll-text');
+// Loading Screen Logic
+document.addEventListener("DOMContentLoaded", () => {
+    const loadingScreen = document.getElementById("loading-screen");
+    const hiddenElements = document.querySelectorAll('.scroll-text');
+    
+    if (!loadingScreen) {
+        hiddenElements.forEach((el) => observer.observe(el));
+        return;
+    }
+    
+    // Minimum 2 seconds delay
+    const minimumDelay = new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Window fully loaded
+    const windowLoaded = new Promise(resolve => {
+        if (document.readyState === "complete") {
+            resolve();
+        } else {
+            window.addEventListener("load", resolve);
+        }
+    });
 
-hiddenElements.forEach((el) => observer.observe(el));
+    // When both are ready, fade out
+    Promise.all([minimumDelay, windowLoaded]).then(() => {
+        loadingScreen.classList.add("fade-out");
+        setTimeout(() => {
+            loadingScreen.style.display = "none";
+            // Start observing elements only AFTER loading screen is gone
+            hiddenElements.forEach((el) => observer.observe(el));
+            document.body.classList.add('loaded');
+        }, 800);
+    });
+});
